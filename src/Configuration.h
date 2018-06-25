@@ -135,7 +135,6 @@ class Configuration {
     int get_items() const;
 
     std::string get_opt_method() const;
-    void resize(uint64_t d) const;
     uint64_t get_netflix_workers() const;
 
     double get_momentum_beta() const;

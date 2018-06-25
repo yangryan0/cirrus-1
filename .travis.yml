@@ -39,12 +39,14 @@ install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq g++-6
   - sudo apt-get install libstdc++6
+  - sudo apt-get install -qq clang-format-3.8
   - export CXX=/usr/bin/g++-6
   - export CC=/usr/bin/gcc-6
   - sudo ln -s -f /usr/bin/gcc-6 /usr/local/bin/gcc
   - sudo ln -s -f /usr/bin/g++-6 /usr/local/bin/g++
   - mv src/Makefile.am src/Makefile_centos.am
   - mv src/Makefile_ubuntu.am src/Makefile.am
+  - .travis/check-git-clang-format-output.sh
   - ./bootstrap.sh
   - gcc --version
   - g++ --version

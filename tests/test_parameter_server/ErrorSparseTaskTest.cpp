@@ -1,4 +1,4 @@
-#include <Tasks.h>
+#include "TasksTest.h"
 
 #include "Serializers.h"
 #include "config.h"
@@ -28,7 +28,7 @@ std::unique_ptr<CirrusModel> get_model(const Configuration& config,
   return psi->get_full_model(use_col_filtering);
 }
 
-void ErrorSparseTask::run(const Configuration& config) {
+void ErrorSparseTaskTest::run(const Configuration& config) {
   std::cout << "Compute error task connecting to store" << std::endl;
 
   std::cout << "Creating sequential S3Iterator" << std::endl;

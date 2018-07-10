@@ -1,5 +1,5 @@
-#ifndef _TASKS_H_
-#define _TASKS_H_
+#ifndef _TASKS_TEST_H_
+#define _TASKS_TEST_H_
 
 #include <Configuration.h>
 
@@ -57,9 +57,9 @@ class MLTask {
     Configuration config;
 };
 
-class LogisticSparseTaskS3 : public MLTask {
+class LogisticSparseTaskS3Test : public MLTask {
   public:
-    LogisticSparseTaskS3(
+    LogisticSparseTaskS3Test(
         uint64_t model_size,
         uint64_t batch_size, uint64_t samples_per_batch,
         uint64_t features_per_sample, uint64_t nworkers,
@@ -91,6 +91,7 @@ class LogisticSparseTaskS3 : public MLTask {
         void get_new_model_inplace(const SparseDataset& ds,
                                    SparseLRModel& model,
                                    const Configuration& config) {
+          std::cout << "bnum_samples: " << ds.num_samples() << std::endl;
           psi->get_lr_sparse_model_inplace(ds, model, config);
         }
 
@@ -102,7 +103,7 @@ class LogisticSparseTaskS3 : public MLTask {
 
     bool get_dataset_minibatch(
         std::unique_ptr<SparseDataset>& dataset,
-        S3SparseIterator& s3_iter);
+        SparseDataset& dataset_train);
     void push_gradient(LRSparseGradient*);
 
     std::mutex redis_lock;
@@ -143,9 +144,9 @@ class PSSparseTask : public MLTask {
 };
 
 
-class ErrorSparseTask : public MLTask {
+class ErrorSparseTaskTest : public MLTask {
   public:
-    ErrorSparseTask(
+    ErrorSparseTaskTest(
         uint64_t model_size,
         uint64_t batch_size, uint64_t samples_per_batch,
         uint64_t features_per_sample, uint64_t nworkers,

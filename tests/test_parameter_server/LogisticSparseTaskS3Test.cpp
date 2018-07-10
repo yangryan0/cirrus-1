@@ -1,4 +1,4 @@
-#include <Tasks.h>
+#include "TasksTest.h"
 
 #include "Serializers.h"
 #include "Utils.h"
@@ -7,12 +7,14 @@
 #include "InputReader.h"
 
 #include <pthread.h>
+#include <iostream>
+#include <random>
 
 #undef DEBUG
 
 namespace cirrus {
 
-void LogisticSparseTaskS3::push_gradient(LRSparseGradient* lrg) {
+void LogisticSparseTaskS3Test::push_gradient(LRSparseGradient* lrg) {
 #ifdef DEBUG
   auto before_push_us = get_time_us();
   std::cout << "Publishing gradients" << std::endl;
@@ -39,7 +41,7 @@ void LogisticSparseTaskS3::push_gradient(LRSparseGradient* lrg) {
 }
 
 // get samples and labels data
-bool LogisticSparseTaskS3::get_dataset_minibatch(
+bool LogisticSparseTaskS3Test::get_dataset_minibatch(
     std::unique_ptr<SparseDataset>& dataset,
     SparseDataset& dataset_train) {
 #ifdef DEBUG
@@ -51,7 +53,7 @@ bool LogisticSparseTaskS3::get_dataset_minibatch(
   auto finish1 = get_time_us();
 #endif
   dataset.reset(&minibatch); // this takes 11 us
-
+  std::cout << (*dataset).num_samples() << std::endl;
 #ifdef DEBUG
   auto finish2 = get_time_us();
   double bw = 1.0 * dataset->getSizeBytes() /
@@ -67,7 +69,7 @@ bool LogisticSparseTaskS3::get_dataset_minibatch(
   return true;
 }
 
-void LogisticSparseTaskS3::run(const Configuration& config, int worker) {
+void LogisticSparseTaskS3Test::run(const Configuration& config, int worker) {
   std::cout << "Starting LogisticSparseTaskS3"
     << std::endl;
   uint64_t num_s3_batches = config.get_limit_samples() / config.get_s3_size();
@@ -93,6 +95,7 @@ void LogisticSparseTaskS3::run(const Configuration& config, int worker) {
   InputReader input;
   SparseDataset dataset_train = input.read_input_criteo_kaggle_sparse(
       "tests/test_data/train_lr.csv", ",", config);
+  dataset_train.check();
   auto start_time = get_time_ms();
   while (1) {
     // get data, labels and model
@@ -105,8 +108,8 @@ void LogisticSparseTaskS3::run(const Configuration& config, int worker) {
     }
 #ifdef DEBUG
     std::cout << get_time_us() << " [WORKER] phase 1 done. Getting the model" << std::endl;
-    //dataset->check();
-    //dataset->print_info();
+    dataset->check();
+    dataset->print_info();
     auto now = get_time_us();
 #endif
     // compute mini batch gradient
@@ -114,7 +117,6 @@ void LogisticSparseTaskS3::run(const Configuration& config, int worker) {
 
     // we get the model subset with just the right amount of weights
     sparse_model_get->get_new_model_inplace(*dataset, model, config);
-
 #ifdef DEBUG
     std::cout << "get model elapsed(us): " << get_time_us() - now << std::endl;
     std::cout << "Checking model" << std::endl;

@@ -15,7 +15,8 @@ LINCLUDES    = -L$(TOP_DIR)/third_party/aws-sdk-cpp/build/aws-cpp-sdk-core/ \
 	       -L$(TOP_DIR)/third_party/kerberos/src/lib \
 	       -L$(TOP_DIR)/third_party/keyutils/ \
 	       -L$(TOP_DIR)/third_party/gflags/lib/ \
-	       -L$(TOP_DIR)/third_party/curl/curl/lib/.libs/
+	       -L$(TOP_DIR)/third_party/curl/curl/lib/.libs/ \
+	       -L$(TOP_DIR)/tests/test_parameter_server/
 
 LDADD    = $(LINCLUDES) $(LIBS)
 LDFLAGS  = -static-libgcc  -static  -Wl,--whole-archive \
@@ -47,7 +48,7 @@ CPP_SOURCES = InputReader.cpp Utils.cpp \
 	      S3Iterator.cpp S3SparseIterator.cpp \
 	      PerformanceLambdaTask.cpp \
 	      S3.cpp SparseDataset.cpp \
-	      PSSparseServerTask.cpp PSSparseServerInterface.cpp \
+	      PSSparseServerTask.cpp PSSparseServerInterface.cpp
 
 CPP_SOURCES_PS_TEST = InputReader.cpp Utils.cpp \
               Dataset.cpp Matrix.cpp \
@@ -66,7 +67,7 @@ CPP_SOURCES_PS_TEST = InputReader.cpp Utils.cpp \
 	      S3Iterator.cpp S3SparseIterator.cpp \
 	      PerformanceLambdaTask.cpp \
 	      S3.cpp SparseDataset.cpp \
-	      PSSparseServerTask.cpp PSSparseServerInterface.cpp \
+	      PSSparseServerTask.cpp PSSparseServerInterface.cpp
 
 CPP_SOURCES_SOFTMAX = InputReader.cpp Utils.cpp \
               Dataset.cpp Matrix.cpp Model.cpp LRModel.cpp \
@@ -83,4 +84,4 @@ csv_to_libsvm_SOURCES = CriteoCsvToLibSVM.cpp $(CPP_SOURCES)
 
 __TOP_DIR__tests_test_travis_test_lr_SOURCES = $(TOP_DIR)/tests/test_travis/check_correctness_cirrus_sgd.cpp $(CPP_SOURCES)
 
-__TOP_DIR__tests_test_parameter_server_test_ps_SOURCES = $(TOP_DIR)/tests/test_parameter_server/parameter_server_test.cpp
+__TOP_DIR__tests_test_parameter_server_test_ps_SOURCES = $(TOP_DIR)/tests/test_parameter_server/parameter_server_test.cpp $(CPP_SOURCES_PS_TEST)

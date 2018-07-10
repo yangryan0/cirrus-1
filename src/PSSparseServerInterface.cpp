@@ -80,9 +80,10 @@ void PSSparseServerInterface::get_lr_sparse_model_inplace(const SparseDataset& d
   std::cout << "Getting LR sparse model inplace" << std::endl;
 #endif
   // we don't know the number of weights to start with
+  std::cout << "num_samples: " << ds.num_samples() << std::endl;
   char* msg = new char[MAX_MSG_SIZE];
   char* msg_begin = msg; // need to keep this pointer to delete later
-
+  
   uint32_t num_weights = 0;
   store_value<uint32_t>(msg, num_weights); // just make space for the number of weights
   for (const auto& sample : ds.data_) {
@@ -91,6 +92,7 @@ void PSSparseServerInterface::get_lr_sparse_model_inplace(const SparseDataset& d
       num_weights++;
     }
   }
+  std::cout << "here" << std::endl;
   msg = msg_begin;
   store_value<uint32_t>(msg, num_weights); // store correct value here
 #ifdef DEBUG
@@ -128,7 +130,6 @@ void PSSparseServerInterface::get_lr_sparse_model_inplace(const SparseDataset& d
 #endif
   char* buffer = new char[to_receive_size];
   read_all(sock, buffer, to_receive_size); //XXX this takes 2ms once every 5 runs
-
 #ifdef DEBUG
   std::cout << "Loading model from memory" << std::endl;
 #endif

@@ -103,6 +103,9 @@ class LogisticSparseTaskS3 : public MLTask {
     bool get_dataset_minibatch(
         std::unique_ptr<SparseDataset>& dataset,
         S3SparseIterator& s3_iter);
+    bool get_dataset_minibatch(
+        std::unique_ptr<SparseDataset>& dataset,
+        SparseDataset& dataset_train);
     void push_gradient(LRSparseGradient*);
 
     std::mutex redis_lock;

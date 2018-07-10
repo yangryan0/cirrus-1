@@ -7,6 +7,7 @@
 #include "SparseLRModel.h"
 #include "PSSparseServerInterface.h"
 #include "Configuration.h"
+#include "InputReader.h"
 
 #define DEBUG
 #define ERROR_INTERVAL_USEC (100000)  // time between error checks
@@ -57,12 +58,8 @@ void ErrorSparseTask::run(const Configuration& config) {
     << config.get_train_range().second
     << std::endl;
 
-  uint32_t minibatches_per_s3_obj =
-    config.get_s3_size() / config.get_minibatch_size();
-  for (uint64_t i = 0; i < (right - left) * minibatches_per_s3_obj; ++i) {
-    const void* minibatch_data = s3_iter.get_next_fast
   InputReader input;
-  minibatches_vec.push_back(input.input_criteo_kaggle_sparse(
+  minibatches_vec.push_back(input.read_input_criteo_kaggle_sparse(
         "tests/test_data/test_lr.csv", ",", config));
 
   std::cout << "[ERROR_TASK] Got "

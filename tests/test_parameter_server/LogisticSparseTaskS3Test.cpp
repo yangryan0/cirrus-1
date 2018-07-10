@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "S3SparseIterator.h"
 #include "PSSparseServerInterface.h"
+#include "InputReader.h"
 
 #include <pthread.h>
 
@@ -49,7 +50,7 @@ bool LogisticSparseTaskS3::get_dataset_minibatch(
 #ifdef DEBUG
   auto finish1 = get_time_us();
 #endif
-  dataset.reset(minibatch); // this takes 11 us
+  dataset.reset(&minibatch); // this takes 11 us
 
 #ifdef DEBUG
   auto finish2 = get_time_us();

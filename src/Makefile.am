@@ -48,8 +48,25 @@ CPP_SOURCES = InputReader.cpp Utils.cpp \
 	      PerformanceLambdaTask.cpp \
 	      S3.cpp SparseDataset.cpp \
 	      PSSparseServerTask.cpp PSSparseServerInterface.cpp \
-	      $(TOP_DIR)/tests/test_parameter_server/ErrorSparseTaskTest.cpp \
-	      $(TOP_DIR)/tests/test_parameter_server/LogisticSparseTaskS3Test.cpp
+
+CPP_SOURCES_PS_TEST = InputReader.cpp Utils.cpp \
+              Dataset.cpp Matrix.cpp \
+	      OptimizationMethod.cpp AdaGrad.cpp \
+	      Momentum.cpp SGD.cpp Nesterov.cpp\
+	      Model.cpp LRModel.cpp SoftmaxModel.cpp SparseLRModel.cpp \
+	      S3Client.cpp \
+	      SparseMFModel.cpp MFModel.cpp\
+              ModelGradient.cpp MlUtils.cpp Configuration.cpp \
+              Checksum.cpp \
+              $(TOP_DIR)/tests/test_parameter_server/ErrorSparseTaskTest.cpp \
+	      $(TOP_DIR)/tests/test_parameter_server/LogisticSparseTaskS3Test.cpp \
+	      MFNetflixTask.cpp \
+	      LoadingSparseTaskS3.cpp LoadingNetflixTask.cpp \
+              TasksWait.cpp MurmurHash3.cpp \
+	      S3Iterator.cpp S3SparseIterator.cpp \
+	      PerformanceLambdaTask.cpp \
+	      S3.cpp SparseDataset.cpp \
+	      PSSparseServerTask.cpp PSSparseServerInterface.cpp \
 
 CPP_SOURCES_SOFTMAX = InputReader.cpp Utils.cpp \
               Dataset.cpp Matrix.cpp Model.cpp LRModel.cpp \

@@ -29,7 +29,7 @@ class CollaborativeFilteringTask(BaseTask):
                  "num_users: 480189 \n" + \
                  "num_items: 17770 \n" + \
                  "train_set: 0-5 \n" + \
-                 "s3_bucket: cirrus-netflix-not-normalized"
+                 "s3_bucket: cirrus-netflix-ryan"
 
         return config
 
@@ -42,12 +42,12 @@ def CollaborativeFiltering(
         learning_rate,
         epsilon,
         progress_callback,
-        resume_model,
         train_set,
         test_set,
         minibatch_size,
         model_bits,
         ps,
+        resume_model="",
         opt_method="sgd",
         checkpoint_model=0,
         use_grad_threshold=False,
